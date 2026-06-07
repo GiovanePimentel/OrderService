@@ -265,5 +265,21 @@ public class OrderService
 
         return confirm;
     }
+    public async Task<List<Order>> GetOrders(int? id)
+    {
+        List<Order> Orders = new List<Order>();
+        if (id == null)
+        {
+            Orders = await _db.Orders.ToListAsync();
+        }
+        else
+        {
+            Orders = await _db.Orders.Where(x => x.Id == id).ToListAsync();
+        }
 
+        Orders.ForEach(async (x) => x.Itens = await _db.Items.Where(y => y.OrderID == x.Id).ToListAsync());
+
+        return Orders;
+
+    }
 }
