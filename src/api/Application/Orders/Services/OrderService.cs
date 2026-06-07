@@ -87,10 +87,6 @@ public class OrderService
                     retornaProduto.Approved = false;
                     break;
                 }
-                Console.WriteLine($"Produto: {produto.Id}");
-                Console.WriteLine($"Estoque antes: {produto.AvailableQuantity}");
-                Console.WriteLine($"Qtd Item: {lista.Where(x => x.ProductId == produto.Id).Sum(x => x.Quantity)}");
-                Console.WriteLine(produto.AvailableQuantity < lista.Where(x => x.ProductId == produto.Id).Sum(x => x.Quantity));
                 if (produto.AvailableQuantity < lista.Where(x => x.ProductId == produto.Id).Sum(x => x.Quantity))
                 {
                     retornaProduto.Message = "Product no Stock. Product " + produto.Id.ToString() + ", AvailableQuantity " + produto.AvailableQuantity.ToString();
@@ -165,12 +161,9 @@ public class OrderService
                 var item = OrdemSelecionada.Itens.First(x => x.ProductId == produto.Id);
 
                 var quantidade = OrdemSelecionada.Itens.Where(x => x.ProductId == produto.Id).Sum(x => x.Quantity);
-                //Console.WriteLine($"Produto: {produto.Id}");
-                //Console.WriteLine($"Estoque antes: {produto.AvailableQuantity}");
-                //Console.WriteLine($"Qtd Item: {item.Quantity}");
+
                 produto.AvailableQuantity -= quantidade;
 
-                //Console.WriteLine($"Estoque depois: {produto.AvailableQuantity}");
             }
             OrdemSelecionada.Status = OrderStatus.Confirmed;
 

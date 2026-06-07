@@ -155,8 +155,7 @@ public class OrderServiceTests
         var p = db.Products.First();
 
         var qtd = p.AvailableQuantity;
-        Console.WriteLine(p.Id);
-        Console.WriteLine(qtd);
+
 
         var order = await service.CreateOrder(
                 new CreateOrderRequest
@@ -174,7 +173,7 @@ public class OrderServiceTests
         Assert.True(result.Approved);
 
         var product = db.Products.First(x => x.Id == 1);
-        Console.WriteLine(product.AvailableQuantity);
+
 
         Assert.Equal(13, product.AvailableQuantity);
     }
