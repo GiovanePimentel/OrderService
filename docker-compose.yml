@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres
+
+    container_name: postgres-order
+
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  api:
+    build:
+      context: ./src/api
+
+    container_name: order-api
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+
+      ConnectionStrings__DefaultConnection: >
+        Host=db;
+        Port=5432;
+        Database=orders;
+        Username=postgres;
+        Password=postgres
+
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
