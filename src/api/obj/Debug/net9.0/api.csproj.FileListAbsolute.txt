@@ -6,7 +6,6 @@ C:\Prog\OrderService\src\api\bin\Debug\net9.0\api.deps.json
 C:\Prog\OrderService\src\api\bin\Debug\net9.0\api.runtimeconfig.json
 C:\Prog\OrderService\src\api\bin\Debug\net9.0\api.dll
 C:\Prog\OrderService\src\api\bin\Debug\net9.0\api.pdb
-C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.OpenApi.dll
 C:\Prog\OrderService\src\api\obj\Debug\net9.0\api.csproj.AssemblyReference.cache
 C:\Prog\OrderService\src\api\obj\Debug\net9.0\api.GeneratedMSBuildEditorConfig.editorconfig
@@ -133,9 +132,12 @@ C:\Prog\OrderService\src\api\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Wor
 C:\Prog\OrderService\src\api\bin\Debug\net9.0\FluentValidation.dll
 C:\Prog\OrderService\src\api\bin\Debug\net9.0\FluentValidation.AspNetCore.dll
 C:\Prog\OrderService\src\api\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll
-C:\Prog\OrderService\src\api\bin\Debug\net9.0\xunit.abstractions.dll
-C:\Prog\OrderService\src\api\bin\Debug\net9.0\xunit.runner.visualstudio.testadapter.dll
-C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
-C:\Prog\OrderService\src\api\bin\Debug\net9.0\xunit.assert.dll
-C:\Prog\OrderService\src\api\bin\Debug\net9.0\xunit.core.dll
-C:\Prog\OrderService\src\api\bin\Debug\net9.0\xunit.execution.dotnet.dll
+C:\Prog\OrderService\src\api\obj\Debug\net9.0\api.sourcelink.json
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Prog\OrderService\src\api\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

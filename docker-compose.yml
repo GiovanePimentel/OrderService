@@ -1,6 +1,7 @@
 services:
+
   db:
-    image: postgres
+    image: postgres:16
 
     container_name: postgres-order
 
@@ -13,11 +14,20 @@ services:
       - "5432:5432"
 
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql/data
 
-  api:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d orders"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  order-api:
+
     build:
       context: ./src/api
+      dockerfile: Dockerfile
 
     container_name: order-api
 
@@ -25,17 +35,15 @@ services:
       - "8080:8080"
 
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
-
-      ConnectionStrings__DefaultConnection: >
-        Host=db;
-        Port=5432;
-        Database=orders;
-        Username=postgres;
-        Password=postgres
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=orders;Username=postgres;Password=postgres
 
     depends_on:
       - db
+
+    restart: on-failure
+
 
 volumes:
   postgres_data:

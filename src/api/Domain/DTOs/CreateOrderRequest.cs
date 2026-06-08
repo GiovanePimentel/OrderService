@@ -10,6 +10,10 @@ public class CreateOrderRequest
 
 public class CreateOrderItemRequest
 {
+    public CreateOrderItemRequest()
+    {
+
+    }
     public CreateOrderItemRequest(int prodId, int qtd)
     {
         ProductId = prodId;

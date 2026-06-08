@@ -14,7 +14,7 @@ public class Order
         Currency = cur;
         Itens = ites;
         Total = Itens.Sum(x => x.Quantity * x.UnitPrice);
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public int Id { get; set; }

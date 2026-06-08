@@ -199,61 +199,42 @@ public class OrderService
             if (OrdemSelecionada.Status == OrderStatus.Canceled)
             {
                 confirm.Approved = true;
-                confirm.Message = "Order Canceled.";
+                confirm.Message = "Order Canceled";
                 return confirm;
             }
             if (OrdemSelecionada.Status == OrderStatus.Placed)
             {
                 confirm.Approved = true;
                 confirm.Message = "Order Canceled.";
+                OrdemSelecionada.Status = OrderStatus.Canceled;
+                await _db.SaveChangesAsync();
                 return confirm;
             }
 
             OrdemSelecionada.Itens = await _db.Items.Where(x => x.OrderID == OrderId).ToListAsync();
 
-            if (OrdemSelecionada.Status == OrderStatus.Canceled)
-            {
-                confirm.Approved = false;
-            }
             if (OrdemSelecionada.Status == OrderStatus.Confirmed)
             {
+
+
+                var ids = OrdemSelecionada.Itens.Select(x => x.Id).ToList();
+
+                var produtos = await _db.Products.Where(x => ids.Contains(x.Id)).ToListAsync();
+
+                foreach (var produto in produtos)
+                {
+                    produto.AvailableQuantity = produto.AvailableQuantity + OrdemSelecionada.Itens.Where(x => x.ProductId == produto.Id).Select(x => x.Quantity).FirstOrDefault();
+                    _db.Products.Update(produto);
+                }
+                OrdemSelecionada.Status = OrderStatus.Canceled;
+                _db.Orders.Update(OrdemSelecionada);
+
+                await _db.SaveChangesAsync();
+
                 confirm.Approved = true;
-                confirm.Message = "Order confirmed !";
-                return confirm;
-
-            }
-            List<CreateOrderItemRequest> it = new List<CreateOrderItemRequest>();
-            foreach (var ite in OrdemSelecionada.Itens)
-            {
-                it.Add(new CreateOrderItemRequest(ite.ProductId, ite.Quantity));
-            }
-            ResponseItems respostaItems = await ValidateItems(it);
-            if (respostaItems.Approved == false)
-            {
-                confirm.Approved = false;
-                confirm.Message = respostaItems.Message;
+                confirm.Message = "Order Canceled ";
                 return confirm;
             }
-
-            var ids = OrdemSelecionada.Itens.Select(x => x.Id).ToList();
-
-            var produtos = await _db.Products.Where(x => ids.Contains(x.Id)).ToListAsync();
-
-            foreach (var produto in produtos)
-            {
-                produto.AvailableQuantity = produto.AvailableQuantity - OrdemSelecionada.Itens.Where(x => x.ProductId == produto.Id).Select(x => x.Quantity).FirstOrDefault();
-            }
-            OrdemSelecionada.Status = OrderStatus.Confirmed;
-
-            foreach (var prod in produtos)
-            {
-                _db.Products.Update(prod);
-            }
-            _db.Orders.Update(OrdemSelecionada);
-
-            await _db.SaveChangesAsync();
-
-            confirm.Message = "Order Confirmed !";
         }
         catch (System.Exception ex)
         {
@@ -265,21 +246,29 @@ public class OrderService
 
         return confirm;
     }
-    public async Task<List<Order>> GetOrders(int? id)
+    public async Task<Order?> GetOrder(int id)
     {
-        List<Order> Orders = new List<Order>();
-        if (id == null)
-        {
-            Orders = await _db.Orders.ToListAsync();
-        }
-        else
-        {
-            Orders = await _db.Orders.Where(x => x.Id == id).ToListAsync();
-        }
+        if (id == 0) return new Order();
 
-        Orders.ForEach(async (x) => x.Itens = await _db.Items.Where(y => y.OrderID == x.Id).ToListAsync());
+        Order? Order = await _db.Orders.AsNoTracking().Where(x => x.Id == id).FirstOrDefaultAsync();
 
-        return Orders;
+        if (Order == null) return null;
+
+        Order.Itens = await _db.Items.AsNoTracking().Where(y => y.OrderID == Order.Id).ToListAsync();
+
+        return Order;
 
     }
+    public async Task<List<Order>> GetOrders(int page, int pageSize)
+    {
+        var Orders = await _db.Orders.AsNoTracking().OrderByDescending(x => x.CreatedAt).Skip((page - 1) * pageSize)
+            .Take(pageSize).ToListAsync();
+
+        if (Orders.Count == 0) return new List<Order>();
+
+        Orders.ForEach(async x => x.Itens = await _db.Items.AsNoTracking().Where(y => y.OrderID == x.Id).ToListAsync());
+
+        return Orders;
+    }
+
 }
