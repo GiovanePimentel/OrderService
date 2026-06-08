@@ -150,6 +150,21 @@ Lista pedidos com paginação.
 dotnet test
 ```
 
+## Testes via Postman
+
+Uma coleção Postman foi disponibilizada na pasta:
+
+/postman/OrderService.postman_collection.json
+
+Fluxo sugerido:
+
+1. POST /auth/token
+2. POST /orders
+3. POST /orders/{id}/confirm
+4. POST /orders/{id}/cancel
+5. GET /orders/{id}
+6. GET /orders
+
 ## Banco de Dados
 
 A aplicação utiliza PostgreSQL executando via Docker.
