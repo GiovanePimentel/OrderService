@@ -121,6 +121,7 @@ public class OrderService
             if (OrdemSelecionada == null)
             {
                 confirm.Approved = false;
+                confirm.Message = "non-existent order.";
                 return confirm;
             }
 
